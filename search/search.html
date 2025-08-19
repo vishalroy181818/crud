@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>User Found</title>
+  <link rel="stylesheet" href="search.css">
+</head>
+<body>
+  <div class="card">
+    <h2>User Found</h2>
+    <p><b>id:</b> <span id="id"></span></p>
+    <p><b>Name:</b> <span id="name"></span></p>
+    <p><b>DOB:</b> <span id="dob"></span></p>
+    <p><b>Father Name:</b> <span id="father"></span></p>
+    <p><b>Mother Name:</b> <span id="mother"></span></p>
+    <p><b>Email:</b> <span id="email"></span></p>
+    <p><b>Phone:</b> <span id="phone"></span></p>
+    <p><b>Date:</b> <span id="date"></span></p>
+
+    <a href="/">⬅ Back</a>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+     document.getElementById("id").textContent = params.get("id");
+ 
+    document.getElementById("name").textContent = params.get("name");
+    document.getElementById("dob").textContent = params.get("dob");
+    document.getElementById("father").textContent = params.get("father");
+    document.getElementById("mother").textContent = params.get("mother");
+    document.getElementById("email").textContent = params.get("email");
+    document.getElementById("phone").textContent = params.get("phone");
+    document.getElementById("date").textContent = params.get("date");
+  </script>
+</body>
+</html>
+
