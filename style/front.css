@@ -1,0 +1,118 @@
+ body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #141e30, #243b55);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+       background-image: url("img5.jpg");
+       background-size: cover;
+    }
+    .main-section{
+        height: 50%;
+        width: 30%;
+        /*border: 1px solid yellow;*/
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+        backdrop-filter: blur(50px);
+
+
+    }
+    h1 {
+      color: yellow;
+      margin-bottom: 50px;
+      
+    }
+    .button-box {
+      display: flex;
+      gap: 20px;
+    }
+    .button-box a button {
+      background: #3498db;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      font-size: 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .button-box a button:hover {
+      
+      
+    border: 1px solid yellow;
+    box-shadow: 1px 1px 4px 4px  yellow;
+    color: yellow;
+}
+@media (max-width: 1024px) {
+  .main-section{
+    width: 70%;
+    padding: 20px;
+  }
+
+  button {
+    width: 90%;
+    font-size: 15px;
+  }
+}
+
+/* Mobile Screens ke liye */
+@media (max-width: 768px) {
+  body {
+    padding: 10px;
+    align-items: flex-start;
+  }
+
+  .main-section {
+    width: 95%;
+    padding: 15px;
+  }
+
+  .main-section h1 {
+    font-size: 22px;
+  }
+
+  .form-box h2 {
+    font-size: 18px;
+  }
+
+  label {
+    font-size: 14px;
+  }
+
+  input {
+    padding: 8px;
+    font-size: 14px;
+  }
+
+  button {
+    width: 100%;
+    font-size: 14px;
+    padding: 10px;
+  }
+}
+
+/* Very Small Screens (like old phones) */
+@media (max-width: 480px) {
+  .main-section h1 {
+    font-size: 18px;
+  }
+
+  .form-box h2 {
+    font-size: 16px;
+  }
+
+  input, button {
+    font-size: 13px;
+    padding: 8px;
+  }
+}
+
+
+    

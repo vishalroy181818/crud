@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Healthcare Candidate</title>
+  <link rel="stylesheet" href="front.css">
+  <!-- <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #141e30, #243b55);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+       background-image: url(img5.jpg);
+       background-size: cover;
+    }
+    #main-section{
+        height: 50%;
+        width: 30%;
+        border: 1px solid yellow;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+        backdrop-filter: blur(10px);
+
+
+    }
+    h1 {
+      color: yellow;
+      margin-bottom: 50px;
+    }
+    .button-box {
+      display: flex;
+      gap: 20px;
+    }
+    .button-box a button {
+      background: #3498db;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      font-size: 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .button-box a button:hover {
+      
+      
+    border: 1px solid yellow;
+    box-shadow: 1px 1px 4px 4px  yellow;
+    color: yellow;
+}
+
+    
+  </style> -->
+</head>
+<body>
+    <div class="main-section" >
+  <h1>Health Care - Candidate</h1>
+  
+  <div class="button-box">
+    <a href="/signup.html"><button>Signup</button></a>
+    <a href="/login.html"><button>Login</button></a>
+  </div>
+  </div>
+  <script>
+    // Agar user login hai to forms dikhaye
+    fetch("/checkAuth")
+      .then(res => res.json())
+      .then(data => {
+        if (data.loggedIn) {
+          document.getElementById("main-section").style.display = "block";
+          document.querySelector(".button-box").style.display = "none";
+        }
+      });
+  </script>
+</body>
+</html>
