@@ -53,6 +53,37 @@
         <button type="submit">Search</button>
       </form>
     </div>
+    <h2>My Registered Babies</h2>
+<table border="1">
+  <thead>
+    <tr><th>Name</th><th>DOB</th><th>Father</th><th>Mother</th><th>Phone</th><th>Email</th></tr>
+  </thead>
+  <tbody id="babyList"></tbody>
+</table>
+
+<script>
+async function loadBabies() {
+  const res = await fetch("/my-babies");
+  const babies = await res.json();
+
+  let rows = "";
+  babies.forEach(b => {
+    rows += `<tr>
+      <td>${b.name}</td>
+      <td>${b.dob}</td>
+      <td>${b.Fname}</td>
+      <td>${b.Mname}</td>
+      <td>${b.phone}</td>
+      <td>${b.email}</td>
+    </tr>`;
+  });
+
+  document.getElementById("babyList").innerHTML = rows;
+}
+
+window.onload = loadBabies;
+</script>
+
   </div>
  
 

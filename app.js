@@ -4,6 +4,8 @@ const bodyParser = require("body-parser");
 const path = require("path");
 const bcrypt = require("bcryptjs");
 const session = require("express-session");
+require("dotenv").config();
+              
 
 
 
@@ -11,31 +13,78 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-const PORT = 3000;
+//const PORT = 3000;
+//render enroment
+const PORT = process.env.PORT || 3000;
+const MONGO_URI = process.env.MONGO_URL;
+
 
 //signup to health care
+
+const Admin = require("./models/admin");// admin schema hai ye
+
 app.get("/signup", (req, res) => {
   res.sendFile(path.join(__dirname, "style", "signup.html"));
 });
+
 app.post("/signup", async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
-    const exist = await User.findOne({ email });
+    const exist = await Admin.findOne({ email });
     if (exist) return res.send(" User already exists! <br><a href='/signup.html'>Try Again</a>");
 
-    const hashedPass = await bcrypt.hash(password, 10);
-    const newUser = new User({ name, email, password: hashedPass });
-    await newUser.save();
+    const hashedPass = await bcrypt.hash(password, 10);//10 leght password
+
+    const newAdmin = new Admin({ name, email, password: hashedPass });
+    await newAdmin.save();
 
     res.send(" Signup successful! <br><a href='/login.html'>Login Now</a>");
   } catch (err) {
     res.send(" Error in Signup: " + err);
   }
 });
+//login to health care
+
+app.post("/login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).send("All fields are required");
+    }
+
+    const user = await Admin.findOne({ email });
+    if (!user) {
+      return res.status(400).send("User not found");
+    }
+
+    // yahan error aata hai agar user.password undefined hai
+    const isMatch = await bcrypt.compare(password, user.password);
+
+    if (!isMatch) {
+      return res.status(400).send("Invalid credentials");
+    }
+
+
+    res.redirect("/index.html");// login hone pr index acces ke lega
+  } catch (err) {
+    console.error("Error in Login:", err);
+    res.status(500).send("Error in Login: " + err.message);// login nhi hua to erro de dega
+  }
+});
+//logout
+app.get("/logout", (req, res) => {
+  req.session.destroy(() => {
+    res.send(" Logged out successfully! <br><a href='/login.html'>Login Again</a>");
+  });
+});
+
+
+
 // home page
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname,"style", "front.html"));
+  res.sendFile(path.join(__dirname,"style", "front.html"));//
 });
 
 
@@ -45,7 +94,7 @@ app.use(express.static(path.join(__dirname, "search")));
 
 
 // MongoDB Connection
-mongoose.connect("mongodb://127.0.0.1:27017/mydb", {
+mongoose.connect(MONGO_URI,{
   useNewUrlParser: true,
   useUnifiedTopology: true
 }).then(() => console.log(" MongoDB Connected"))
@@ -79,7 +128,7 @@ app.post("/save", async (req, res) => {
   try {
     
     
-    const newUser = new User({
+    const newUser = new User({  
       name: req.body.name,
       phone: req.body.phone,
       Fname: req.body.fname,
@@ -126,40 +175,6 @@ app.get("/checkAuth", (req, res) => {
   }
 });
 
-//login to health care
-
-app.post("/login", async (req, res) => {
-  try {
-    const { email, password } = req.body;
-
-    if (!email || !password) {
-      return res.status(400).send("All fields are required");
-    }
-
-    const user = await User.findOne({ email });
-    if (!user) {
-      return res.status(400).send("User not found");
-    }
-
-    // yahan error aata hai agar user.password undefined hai
-    const isMatch = await bcrypt.compare(password, user.password);
-
-    if (!isMatch) {
-      return res.status(400).send("Invalid credentials");
-    }
-
-    res.redirect("/index.html");
-  } catch (err) {
-    console.error("Error in Login:", err);
-    res.status(500).send("Error in Login: " + err.message);
-  }
-});
-//logout
-app.get("/logout", (req, res) => {
-  req.session.destroy(() => {
-    res.send(" Logged out successfully! <br><a href='/login.html'>Login Again</a>");
-  });
-});
 
 app.listen(PORT, () => {
   console.log(` Server running at http://localhost:${PORT}`);
