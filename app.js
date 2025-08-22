@@ -13,15 +13,16 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-//const PORT = 3000;
-//render enroment
+//ye .env file se export kiya ja rha hai
 const PORT = process.env.PORT || 3000;
 const MONGO_URI = process.env.MONGO_URL;
 
+// Schema + Model
+const User = require("./models/user");//baaby resistration schema
+const Admin = require("./models/admin");// admin schema hai ye
 
 //signup to health care
 
-const Admin = require("./models/admin");// admin schema hai ye
 
 app.get("/signup", (req, res) => {
   res.sendFile(path.join(__dirname, "style", "signup.html"));
@@ -84,12 +85,12 @@ app.get("/logout", (req, res) => {
 
 // home page
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname,"style", "front.html"));//
+  res.sendFile(path.join(__dirname,"style", "front.html"));//serer ka home page jha signup and login button 
 });
 
 
 // static files (CSS)
-app.use(express.static(path.join(__dirname, "style")));
+app.use(express.static(path.join(__dirname, "style")));//ye file export krta hai like css
 app.use(express.static(path.join(__dirname, "search")));
 
 
@@ -115,8 +116,6 @@ app.use(session({
 
 
 
-// Schema + Model
-const User = require("./models/user");
 
 // Serve HTML Page
 app.get("/", (req, res) => {
