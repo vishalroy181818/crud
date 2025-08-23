@@ -1,20 +1,5 @@
+
 <!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Signup</title>
-</head>
-<body>
-  <h2>Signup</h2>
-  <form action="/signup" method="POST">
-    <input type="text" name="name" placeholder="Name" required><br><br>
-    <input type="email" name="email" placeholder="Email" required><br><br>
-    <input type="password" name="password" placeholder="Password" required><br><br>
-    <button type="submit">Signup</button>
-  </form>
-</body>
-</html> -->
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -36,12 +21,12 @@
              <form action="/signup" method="POST"> 
             <div class="input-box">
               <input type="text" name="name"   required>
-              <span>email</span>
+              <span>name</span>
             </div>
 
             <div class="input-box">
               <input type="email" name="email" required>
-              <span>password</span>
+              <span>email</span>
           </div>
           <div class="input-box">
               <input type="password" name="password" required>
@@ -55,19 +40,105 @@
          </form>
       </div>
      
-      
-
-          
-          
     
-
-            
-            
-
             
      </div>
+      <script>
+    document.getElementById("signupForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const formData = {
+        name: e.target.name.value,
+        email: e.target.email.value,
+        password: e.target.password.value,
+      };
+
+      const res = await fetch("/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+      alert(data.message); // ✅ Alert show hoga
+
+      // optional: agar success ho to login page par redirect kar do
+      if (data.success) {
+        window.location.href = "/login.html";
+      }
+    });
+  </script>
  
      
     
+</body>
+</html> -->
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>signup</title>
+    <link rel="stylesheet" href="new1.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+     <div id="contenor">
+        <div id="icon"><i class="fa-solid fa-user"></i></div> 
+        <div id="hading">user account</div> 
+        
+        <div id="box">
+            <!-- ✅ action aur method hata do, sirf id rakho -->
+            <form id="signupForm"> 
+                <div class="input-box">
+                  <input type="text" name="name" required>
+                  <span>name</span>
+                </div>
+
+                <div class="input-box">
+                  <input type="email" name="email" required>
+                  <span>email</span>
+                </div>
+
+                <div class="input-box">
+                  <input type="password" name="password" required>
+                  <span>password</span>
+                </div>
+
+                <div class="input-box">
+                  <button type="submit">signup</button>
+                </div>
+            </form>
+        </div>
+     </div>
+
+     <script>
+        document.getElementById("signupForm").addEventListener("submit", async (e) => {
+          e.preventDefault(); // ❌ page reload hoga to alert nahi aayega, isliye preventDefault
+
+          const formData = {
+            name: e.target.name.value,
+            email: e.target.email.value,
+            password: e.target.password.value,
+          };
+
+          const res = await fetch("/signup", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(formData),
+          });
+
+          const data = await res.json();
+          alert(data.message); // ✅ ab alert hamesha aayega
+
+          // optional: agar success ho to login page par bhej do
+          if (data.success) {
+            window.location.href = "/login.html";
+          }
+        });
+     </script>
 </body>
 </html>

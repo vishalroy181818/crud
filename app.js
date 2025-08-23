@@ -33,16 +33,19 @@ app.post("/signup", async (req, res) => {
     const { name, email, password } = req.body;
 
     const exist = await Admin.findOne({ email });
-    if (exist) return res.send(" User already exists! <br><a href='/signup.html'>Try Again</a>");
+    //if (exist) return res.send(" User already exists! <br><a href='/signup.html'>Try Again</a>");
+    if (exist) return res.json({ success: false, message: "User already exists!" });
 
     const hashedPass = await bcrypt.hash(password, 10);//10 leght password
 
     const newAdmin = new Admin({ name, email, password: hashedPass });
     await newAdmin.save();
 
-    res.send(" Signup successful! <br><a href='/login.html'>Login Now</a>");
+    //res.send(" Signup successful! <br><a href='/login.html'>Login Now</a>");
+    res.json({ success: true, message: "Signup successful!" });
   } catch (err) {
-    res.send(" Error in Signup: " + err);
+    //res.send(" Error in Signup: " + err);
+     res.json({ success: false, message: "Error in Signup: " + err });
   }
 });
 //login to health care
