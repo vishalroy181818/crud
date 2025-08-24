@@ -15,8 +15,17 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
+  
+}
+#user{
+  margin-left:80%;
+  margin-bottom:5%;
 }
 
+.top{
+  color:yellow;
+  
+}
 /* Container */
 .container {
   background: #fff;
@@ -44,7 +53,7 @@ body {
   border-radius: 12px;
   margin-bottom: 20px;
   box-shadow: inset 0px 2px 5px rgba(0,0,0,0.1);
-  border: 0.3px solid  yellow;
+/*border: 0.3px solid  yellow;*/
 
 }
 

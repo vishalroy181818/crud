@@ -21,6 +21,19 @@ const MONGO_URI = process.env.MONGO_URL;
 const User = require("./models/user");//baaby resistration schema
 const Admin = require("./models/admin");// admin schema hai ye
 
+
+//sessiom setup
+app.use(session({
+  secret: "mySecretKey123",
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    secure: false,       // localhost http pe ho to false hi rakho
+    httpOnly: true,
+    sameSite: "lax"
+  }
+}));
+
 //signup to health care
 
 
@@ -48,7 +61,45 @@ app.post("/signup", async (req, res) => {
      res.json({ success: false, message: "Error in Signup: " + err });
   }
 });
-//login to health care
+//login to health 
+
+
+
+
+
+// app.post("/login", async (req, res) => {
+//   try {
+//     const { email, password } = req.body;
+
+//     if (!email || !password) {
+//       return res.status(400).send("All fields are required");
+//     }
+
+//     const user = await Admin.findOne({ email });
+//     if (!user) {
+//       return res.status(400).send("User not found");
+//     }
+
+//     // yahan error aata hai agar user.password undefined hai
+//     const isMatch = await bcrypt.compare(password, user.password);
+
+//     if (!isMatch) {
+//       return res.status(400).send("Invalid credentials");
+//     }
+//     //login ke bad data store
+//     req.session.user = {
+//       name: user.name,
+//       email: user.email
+//     };
+
+
+//     res.redirect("/index.html");// login hone pr index acces ke lega
+//   } catch (err) {
+//     console.error("Error in Login:", err);
+//     res.status(500).send("Error in Login: " + err.message);// login nhi hua to erro de dega
+//   }
+// });
+//logout
 
 app.post("/login", async (req, res) => {
   try {
@@ -63,21 +114,38 @@ app.post("/login", async (req, res) => {
       return res.status(400).send("User not found");
     }
 
-    // yahan error aata hai agar user.password undefined hai
     const isMatch = await bcrypt.compare(password, user.password);
-
     if (!isMatch) {
       return res.status(400).send("Invalid credentials");
     }
 
+    //  session ab available hoga
+    req.session.user = {
+      name: user.name,
+      email: user.email
+    };
 
-    res.redirect("/index.html");// login hone pr index acces ke lega
+    res.redirect("/index.html");
   } catch (err) {
     console.error("Error in Login:", err);
-    res.status(500).send("Error in Login: " + err.message);// login nhi hua to erro de dega
+    res.status(500).send("Error in Login: " + err.message);
   }
 });
-//logout
+// ✅ Logged in user ka data bhejne ke liye API
+app.get("/api/user", (req, res) => {
+  if (req.session && req.session.user) {
+    res.json(req.session.user);   // session se data bhej rahe hain
+  } else {
+    res.status(401).json({ error: "Not logged in" });
+  }
+});
+
+
+
+
+
+
+
 app.get("/logout", (req, res) => {
   req.session.destroy(() => {
     res.send(" Logged out successfully! <br><a href='/login.html'>Login Again</a>");
@@ -109,13 +177,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 
 
-
-//sessiom setup
-app.use(session({
-  secret: "mysecretkey",
-  resave: false,
-  saveUninitialized: true
-}));
 
 
 

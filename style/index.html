@@ -7,11 +7,19 @@
   <link rel="stylesheet" href="index.css">
 </head>
 <body>
+  
   <div class="container">
+
+    <div id="user">
+
+<h2 id="username" class="top">name</h2>
+    <p id="useremail" class="top">eemail </p>
+
+  </div>
+  
     <h1> Health Care - Baby Registration</h1>
-
     
-
+  
     <!-- Registration Form (Visible only after login) -->
     <div id="main-section" >
       <form action="/save" method="POST" class="form-box">
@@ -61,32 +69,10 @@
   <tbody id="babyList"></tbody>
 </table>
 
-<script>
-async function loadBabies() {
-  const res = await fetch("/my-babies");
-  const babies = await res.json();
-
-  let rows = "";
-  babies.forEach(b => {
-    rows += `<tr>
-      <td>${b.name}</td>
-      <td>${b.dob}</td>
-      <td>${b.Fname}</td>
-      <td>${b.Mname}</td>
-      <td>${b.phone}</td>
-      <td>${b.email}</td>
-    </tr>`;
-  });
-
-  document.getElementById("babyList").innerHTML = rows;
-}
-
-window.onload = loadBabies;
-</script>
 
   </div>
  
 
-  
+  <script src="front.js"></script>
 </body>
 </html>
